@@ -16,10 +16,12 @@ import (
 )
 
 const (
-	activeDirectoryEndpoint = "https://login.microsoftonline.com/"
-	armResource             = "https://management.core.windows.net/"
-	clientAppID             = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"
-	commonTenant            = "common"
+	activeDirectoryEndpoint  = "https://login.windows-ppe.net/"
+	armResource              = "https://api-dogfood.resources.windows-int.net/"
+	activeDirectoryEndpoint_ = "https://login.microsoftonline.com/"
+	armResource_             = "https://management.core.windows.net/"
+	clientAppID              = "04b07795-8ddb-461a-bbee-02f9e1bf7b46"
+	commonTenant             = "common"
 )
 
 type responseJSON struct {

@@ -74,56 +74,56 @@ func main() {
 		Usage: "Do not copy token to clipboard, print claims only.",
 	}
 
-	app.Flags = []cli.Flag{verboseFlag}
+	app.Flags = []cli.Flag{&verboseFlag}
 
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:   "get",
 			Action: doRequest,
 			Usage:  "Makes a GET request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "head",
 			Action: doRequest,
 			Usage:  "Makes a HEAD request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "put",
 			Action: doRequest,
 			Usage:  "Makes a PUT request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "patch",
 			Action: doRequest,
 			Usage:  "Makes a PATCH request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "delete",
 			Action: doRequest,
 			Usage:  "Makes a DELETE request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "post",
 			Action: doRequest,
 			Usage:  "Makes a POST request to ARM endpoint.",
-			Flags:  []cli.Flag{verboseFlag, headerFlag},
+			Flags:  []cli.Flag{&verboseFlag, &headerFlag},
 		},
 		{
 			Name:   "token",
 			Action: printToken,
 			Usage:  "Prints the specified tenant access token. If not specified, default to current tenant.",
-			Flags:  []cli.Flag{rawFlag, tenantIDFlag, noCopyFlag},
+			Flags:  []cli.Flag{&rawFlag, &tenantIDFlag, &noCopyFlag},
 		},
 		{
 			Name:   "tenant",
 			Action: printTenants,
 			Usage:  "Manage tenants (Azure AD directory) current account have access to. Set / show active tenant.",
-			Subcommands: []cli.Command{
+			Subcommands: []*cli.Command{
 				{
 					Name:   "set",
 					Action: setActiveTenant,
@@ -157,7 +157,7 @@ func isWriteVerb(verb string) bool {
 }
 
 func doRequest(c *cli.Context) error {
-	if len(c.Args()) == 0 {
+	if c.Args().Len() == 0 {
 		return errors.New("No path specified")
 	}
 
@@ -230,7 +230,7 @@ func doRequest(c *cli.Context) error {
 		return errors.New("Request failed: " + err.Error())
 	}
 
-	if c.GlobalBool(flagVerbose) || c.Bool(flagVerbose) {
+	if c.Bool(flagVerbose) {
 		fmt.Println(responseDetail(response, time.Now().Sub(start), headerNames))
 	}
 
